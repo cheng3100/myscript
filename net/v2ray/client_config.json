@@ -1,0 +1,74 @@
+{
+    "log": {
+        "access": "",
+        "error": "",
+        "loglevel": "info"
+    },
+    "inbounds": [
+        {
+            "tag": "socks-in",
+            "port": 1080,
+            "listen": "::",
+            "protocol": "socks",
+            "settings": {
+                "auth": "noauth",
+                "udp": true,
+                "ip": "127.0.0.1"
+            }
+        },
+        {
+            "tag": "http-in",
+            "port": 8123,
+            "listen": "::",
+            "protocol": "http"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "xx.xx.xx.xx",   // server's ip
+                        "port": xxx,  // server's port
+                        "users": [
+                            {
+                                "id": "xxxx-uuid-xxxx",   // can be get by `cat /proc/sys/kernel/random/uuid`
+                                                          // or from `uuidgenerator.net`
+                                "alterId": 64
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "protocol" : "freedom",
+            "settings": {},
+            "tag": "direct"     // tag for direct route
+        }
+    ],
+    "routing": {
+        "domainStrategy": "IPOnDemand",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private",
+                    "geoip:cn"
+                ],
+                "outboundTag": "direct"
+            },
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:cn",
+                    "bilibili.com",
+                    "baidu.com"
+                ],
+                "outboundTag": "direct"
+            }
+        ]
+    }
+}
+
