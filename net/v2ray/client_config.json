@@ -14,7 +14,11 @@
                 "auth": "noauth",
                 "udp": true,
                 "ip": "127.0.0.1"
-            }
+            },
+          "sniffing": {
+          "enabled": false,
+          "destOverride": ["http", "tls"]
+        }
         },
         {
             "tag": "http-in",
@@ -40,7 +44,8 @@
                         ]
                     }
                 ]
-            }
+            },
+            "mux": {"enabled": true} 
         },
         {
             "protocol" : "freedom",
